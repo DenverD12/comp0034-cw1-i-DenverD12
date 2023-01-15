@@ -3,3 +3,7 @@ openpyxl
 dash
 dash-bootstrap-components
 pytest
+
+# Additional linters I installed for PEP8 and PEP257
+flake8
+pydocstyle
