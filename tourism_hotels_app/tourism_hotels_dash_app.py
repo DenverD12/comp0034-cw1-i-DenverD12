@@ -1,7 +1,9 @@
 """Main dash app."""
 import dash
-from dash import html, dcc, Dash, dash_table, Input, Output
+from dash import html, dcc, Dash, dash_table, Input, Output, State
 import dash_bootstrap_components as dbc
+from pages.navbar import Navbar
+
 
 # Create the dash app
 app = Dash(__name__,
@@ -19,6 +21,7 @@ app.layout = dbc.Container(
     # Set fluid to true to make container fill entire screen width
     fluid=True,
     children=[   
+        Navbar(),
         # Blank line / line break
         html.Br(),
 
@@ -44,10 +47,27 @@ app.layout = dbc.Container(
         # Blank line / line break
         html.Br(),
 
-        dash.page_container
+        dbc.Row([
+            dbc.Col(
+                dash.page_container,
+                )],
+                justify="center",
+                ),
+        
             
     ],
     )
+
+# add callback for toggling the search bar collapse on small screens
+@app.callback(
+    Output("navbar-collapse", "is_open"),
+    [Input("navbar-toggler", "n_clicks")],
+    [State("navbar-collapse", "is_open")],
+)
+def toggle_navbar_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 if __name__ == '__main__':
     app.run_server(debug=True)
