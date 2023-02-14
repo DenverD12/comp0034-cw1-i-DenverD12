@@ -1,8 +1,11 @@
+pathlib
 pandas
 openpyxl
 dash
 dash-bootstrap-components
 pytest
+plotly
+
 
 # Additional linters I installed for PEP8 and PEP257
 flake8
