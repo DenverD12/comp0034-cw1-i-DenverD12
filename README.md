@@ -46,11 +46,18 @@ However, the search bar ability to collapse callback on smaller screens such as 
 
 <br/>
 
+## **Bugs with plotly itself I could not fix**  
+**Responsive ability of the choropleth figure itself**  
+The choropleth map figure would not resize in width to fit small screen sizes such as mobile phones, despite the correct neccessary bootstrap responsive container settings. I also ensured the best settings in the plotly graph itself, however, I could not fix this.  
+I checked online on forums and it seemed to be a problem/bug with plotly choropleth itself, rather than bootstrap, as every other chart updates as it should with the column layout 
+The positive side is that the user can still drag the map to see any parts off the screen, but it is still somewhat visually unappealing.
+
+
 ## **Not used in final**:  
-**Horizontal bar chart for a single region selected instead of the pie chart was investigated**  
+### **1. Horizontal bar chart for a single region selected instead of the treemap was investigated**  
 <br/>
 
-In order to see how it works, you can simply copy and paste below following code into the function `def create_pie_chart(year_selected, region_name):` in the `create_charts.py` file.  
+In order to see how it works, you can simply copy and paste below following code into the function `def create_tree_map(year_selected, region_name):` in the `create_charts.py` file.  
 Note: also change the output from `fig_pie_chart_region` to `fig_horizontal_bar`. This will output the hoizontal bar instead of the pie chart.
 **Here is the code to copy and paste**:
 ```
@@ -70,12 +77,44 @@ filtered_df_by_region_ascending = filtered_df_by_region.sort_values(
         },
     )
 ```
-I did not use this chart, as the smaller number of arrivals countries sections were much too small, just like the pie chart. However, the pie chart was more visually clear in presenting the regions as it is proportional rather than accounting for exact value like stacked bar. Therefore, the pie chart had more regions visible near the top end of number of arrivals, which is what the target audience was looking for in most of the questions.  
+I did not use this chart, as the smaller number of arrivals countries sections were much too small.   
+ However, the tree map chart was more visually clear in presenting the regions as it is proportional rather than accounting for exact value like stacked bar. Therefore, the tree map had more regions visible near the top end of number of arrivals, which is what the target audience was looking for in most of the questions. It also had the ability to click and zoom in on the smallest squares unlike the bar chart
 A normal bar chart of each country was also considered, but there was the same issue with the stacked bar, as well as the main issue of too many bars for each region on a page and especially too much when "All regions" was chosen, which would be around 195 bars.
 <br/>
 
-## **Bugs with plotly itself I could not fix**  
-**Responsive ability of the choropleth figure itself**  
-The choropleth map figure would not resize in width to fit small screen sizes such as mobile phones, despite the correct neccessary bootstrap responsive container settings. I also ensured the best settings in the plotly graph itself, however, I could not fix this.  
-I checked online on forums and it seemed to be a problem/bug with plotly choropleth itself, rather than bootstrap, as every other chart updates as it should with the column layout 
-The positive side is that the user can still drag the map to see any parts off the screen, but it is still somewhat visually unappealing.
+### **2. Pie chart**  
+- Again this was used in the same way as the stacked bar chart above and not used in the final for the same reasoning. It can also be pasted in the same function and update the return variable to see.  
+- I decided not to use it for the same reasons as to why i didn't use the stacked bars.
+- Mainly, the treemap won in ability to click each square to zoom in, thereby allowing selection of smallest squares.
+
+```
+    # Create plotly pie chart
+    fig_pie_chart_region = px.pie(
+        data_frame=filtered_df_by_region_ascending,
+        values=f"{year_selected}",
+        names="Country Name",
+        color="Country Name",
+        labels={
+            "Country Name": "No. of arrivals in",
+            "labels=": "",
+        },  # Improve repeated country name and replace with informative text
+        template="presentation",
+        # Set figure dimensions, add hole and change size
+        width=580,
+        height=361,
+        hole=0.25,
+    )
+
+    # Remove unneccesary and crowded percentage proportion labels
+    fig_pie_chart_region.update_traces(
+        textposition="none",
+        # Add faint black lines to distinguish similar colored slices
+        marker=dict(line=dict(color="#000000", width=0.1)),
+    )
+    # Add legend, change font and color, and reduce size
+    fig_pie_chart_region.update_layout(
+        legend=dict(font=dict(size=10, color="black")),
+        legend_title=dict(font=dict(family="Courier", size=10, color="blue")),
+    )
+```
+
