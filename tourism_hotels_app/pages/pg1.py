@@ -22,7 +22,7 @@ layout = dbc.Container(
         # First row here
         dbc.Row(
             [
-                # Column containing options and pie chart
+                # Column containing options and treemap
                 dbc.Col(
                     [
                         html.Label(
@@ -104,7 +104,7 @@ layout = dbc.Container(
                                             ],
                                             # Set height between dropdown options
                                             optionHeight=35,
-                                            # Initially set to show all regions in pie and choropleth figure
+                                            # Initially set to show all regions in treemap and choropleth figure
                                             value="All regions",
                                             # Allow user to search available values
                                             searchable=True,
@@ -121,14 +121,14 @@ layout = dbc.Container(
                                     ],
                                     class_name="border border-white",
                                 ),
-                                # Add pie chart figure and title to be updated via callback
-                                html.H5(id="pie-chart-title", className="my-3"),
+                                # Add tree map figure and title to be updated via callback
+                                html.H5(id="tree-map-title", className="my-3"),
                                 dbc.Card(
                                     [
-                                        dcc.Graph(id="pie-chart-regions"),
+                                        dcc.Graph(id="tree-map-regions"),
                                     ],
-                                    # Center pie figure in card and change spacing and position
-                                    className="py-0 p-1 my-0 gy-0 d-flex align-items-center justify-content-center",
+                                    # Center tree map figure in card and change spacing and position
+                                    className="",
                                 ),
                             ],
                             className="my-2",
@@ -225,45 +225,45 @@ layout = dbc.Container(
 @callback(
     [
         Output("choropleth", "figure"),
-        Output("pie-chart-regions", "figure"),
-        Output("pie-chart-title", "children"),
+        Output("tree-map-regions", "figure"),
+        Output("tree-map-title", "children"),
     ],
     [Input("submit_button", "n_clicks"), Input("region-dropdown", "value")],
     [State("input_year_field", "value")],
 )
 def update_output(number_clicks, selected_region, year_selected):
     """
-    Call back to update choropleth and pie figures, as well as the pie chart title when the year and/or region is changed
+    Call back to update choropleth and tree map, as well as the tree map title when the year and/or region is changed
 
     :param number_clicks: Counts number of clicks of submit button, so state input for year is only updated when clicked
     :param selected_region: Value of selected region from region dropdown
     :param year_selected: Value of specific year chosen in input via typing or clicking arrows
-    :return: Figure for choropleth and pie chart and pie chart title, filtered by year and region
+    :return: Figure for choropleth and tree map and tree map title, filtered by year and region
     """
 
     # Prevent updates to chorpleth figure if no year selected
     if year_selected is None:
         raise PreventUpdate
     else:
-        # Don't show all regions on one pie as it is too many colors
+        # Don't show all regions on one treemap as it is too many segments
         if selected_region == "All regions":
             # Show middle east region instead
             fig_choropleth = cc.create_choropleth_map(year_selected, selected_region)
-            fig_pie_chart_regions = cc.create_pie_chart(
+            fig_tree_map_regions = cc.create_tree_map(
                 year_selected, "Middle East & North Africa"
             )
-            pie_chart_title = f"Distribution of Arrivals in Middle East & North Africa in {year_selected}"
+            tree_map_title = f"Distribution of Arrivals in Middle East & North Africa in {year_selected}"
         else:
             # Run external helper function to create choropleth graph figure
             fig_choropleth = cc.create_choropleth_map(year_selected, selected_region)
 
-            fig_pie_chart_regions = cc.create_pie_chart(year_selected, selected_region)
+            fig_tree_map_regions = cc.create_tree_map(year_selected, selected_region)
 
-            pie_chart_title = (
+            tree_map_title = (
                 f"Distribution of Arrivals in {selected_region} in {year_selected}"
             )
 
-        return fig_choropleth, fig_pie_chart_regions, pie_chart_title
+        return fig_choropleth, fig_tree_map_regions, tree_map_title
 
     i
 

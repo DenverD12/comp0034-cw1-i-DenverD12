@@ -81,27 +81,40 @@ def create_choropleth_map(year_selected, selected_region):
         showarrow=False,
     )
 
+    # Add text to instruct user how to use
+    fig_choropleth.add_annotation(
+        text="(Tip: Zoom in, drag and hover to see country names)",
+        x=0.5,
+        y=0.05,
+        xref="paper",
+        yref="paper",
+        yanchor="middle",
+        xanchor="center",
+        showarrow=False,
+        font=dict(size=18, color="blue"),
+    )
+
     # Increase size of map and colourbar
     fig_choropleth.update_layout(
         autosize=False,
         margin=dict(l=0, r=0, b=0, t=0, pad=4, autoexpand=True),
         width=800,
-        height=466,
+        height=474,
     )
 
     return fig_choropleth
 
 
-def create_pie_chart(year_selected, region_name):
+def create_tree_map(year_selected, region_name):
     """
-    Create a pie chart showing each country as a proportion for a specific
+    Create a tree map showing each country as a proportion for a specific
     year and region selected.
 
     Args:
         year_selected: Callback output of a number between 1995 to 2020
         selected_region: Callback output of a region name as a string
     Returns:
-        fig_pie_chart_region: Plotly Express pie chart figure for selected year and region
+        fig_tree_map_regional: Plotly Express tree map figure for selected year and region
     """
     df_arrivals = df_arrivals_prepared
 
@@ -118,41 +131,45 @@ def create_pie_chart(year_selected, region_name):
         [f"{year_selected}"], ascending=(True)
     )
 
-    # Create plotly pie chart
-    fig_pie_chart_region = px.pie(
-        data_frame=filtered_df_by_region_ascending,
+    # Create tree map plotly figure
+    fig_tree_map_regional = px.treemap(
+        filtered_df_by_region_ascending,
+        path=["Country Name"],
         values=f"{year_selected}",
-        names="Country Name",
-        color="Country Name",
-        labels={
-            "Country Name": "No. of arrivals in",
-        },  # Improve repeated country name and replace with informative text
-        template="presentation",
-        # Set figure dimensions, add hole and change size
-        width=580,
-        height=361,
-        hole=0.25,
+        width=650,
+        height=370,
+        color=f"{year_selected}",
+        template="simple_white",
+        color_continuous_scale=custom_colorscale,
     )
 
-    # Remove unneccesary and crowded percentage proportion labels
-    fig_pie_chart_region.update_traces(
-        textposition="none",
-        # Add faint black lines to distinguish similar colored slices
-        marker=dict(line=dict(color="#000000", width=0.1)),
-    )
-    # Add legend, change font and color, and reduce size
-    fig_pie_chart_region.update_layout(
-        legend=dict(font=dict(size=10, color="black")),
-        legend_title=dict(font=dict(family="Courier", size=10, color="blue")),
+    # Define custom hover template for clarity on country and data type
+    hovertemplate = "<b>%{label} </b><br> Total arrivals: %{value:.2f}"
+
+    # update trace with custom hover template
+    fig_tree_map_regional.update_traces(
+        hovertemplate=hovertemplate, textinfo="label+value"
     )
 
-    return fig_pie_chart_region
+    # Add text to instruct user how to use
+    fig_tree_map_regional.add_annotation(
+        text="Hover over a square to see more details<br>Click any rectangle to zoom and focus",
+        x=0.5,
+        y=-0.15,
+        xref="paper",
+        yref="paper",
+        yanchor="middle",
+        xanchor="center",
+        showarrow=False,
+        font=dict(size=16, color="blue"),
+    )
 
+    # Update legend of colorscale to informative text
+    fig_tree_map_regional.update_layout(
+        coloraxis_colorbar=dict(title="No. of<br>arrivals<br>in Millions")
+    )
 
-year_selected = "2019"
-region_name = "All regions"
-
-# create_pie_chart(year_selected, region_name)
+    return fig_tree_map_regional
 
 
 def bar_chart_top_x_tourism_countries(top_x_countries):
