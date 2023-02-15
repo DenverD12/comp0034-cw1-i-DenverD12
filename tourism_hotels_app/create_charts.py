@@ -83,7 +83,7 @@ def create_choropleth_map(year_selected, selected_region):
 
     # Add text to instruct user how to use
     fig_choropleth.add_annotation(
-        text="(Tip: Zoom in, drag and hover to see country names)",
+        text="Zoom in and drag for a better view<br>Hover to see country names",
         x=0.5,
         y=0.05,
         xref="paper",
@@ -91,7 +91,7 @@ def create_choropleth_map(year_selected, selected_region):
         yanchor="middle",
         xanchor="center",
         showarrow=False,
-        font=dict(size=18, color="blue"),
+        font=dict(size=14, color="blue"),
     )
 
     # Increase size of map and colourbar
@@ -161,7 +161,7 @@ def create_tree_map(year_selected, region_name):
         yanchor="middle",
         xanchor="center",
         showarrow=False,
-        font=dict(size=16, color="blue"),
+        font=dict(size=14, color="blue"),
     )
 
     # Update legend of colorscale to informative text
