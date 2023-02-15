@@ -89,25 +89,6 @@ layout = (
                 [
                     dbc.Col(
                         [
-                            html.H4(id="line-compare-countries-title"),
-                            # Increase padding to stop chart corners extruding rounded card corners
-                            dbc.Card(
-                                [
-                                    dcc.Graph(id="line-compare-countries"),
-                                ],
-                                className="p-1",
-                            ),
-                        ],
-                        width=8,
-                        # Reposition column position for smaller screens
-                        xs=12,
-                        sm=12,
-                        md=9,
-                        lg=8,
-                        xl=8,
-                    ),
-                    dbc.Col(
-                        [
                             html.Label("Choose 2 countries to compare"),
                             dcc.Dropdown(
                                 id="dropdown-compare-countries-1",
@@ -147,7 +128,7 @@ layout = (
                                 persistence_type="session",
                             ),
                         ],
-                        width=4,
+                        width=3,
                         # Increase vertical spacing to align with graph card
                         className="my-3",
                         # Reposition column position for smaller screen
@@ -155,7 +136,26 @@ layout = (
                         sm=12,
                         md=3,
                         lg=4,
-                        xl=4,
+                        xl=3,
+                    ),
+                    dbc.Col(
+                        [
+                            html.H4(id="line-compare-countries-title"),
+                            # Increase padding to stop chart corners extruding rounded card corners
+                            dbc.Card(
+                                [
+                                    dcc.Graph(id="line-compare-countries"),
+                                ],
+                                className="p-1",
+                            ),
+                        ],
+                        width=9,
+                        # Reposition column position for smaller screens
+                        xs=12,
+                        sm=12,
+                        md=9,
+                        lg=8,
+                        xl=9,
                     ),
                 ],
                 justify="center",
