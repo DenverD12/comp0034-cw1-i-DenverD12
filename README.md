@@ -17,9 +17,9 @@ To set up your project:
 Add any instructions here for the markers on how to setup and run your Dash app.  
 
 1. First setup and activate a virtual environment.
-2. Secondly, in the terminal run code: `pip install -r requirements.txt` to install dependencies
-3. Then, in the terminal run code: `pip install setup.py`
-4. Next, run `tourism_hotels_dash_app.py` for the main multi-page dash app
+2. Secondly, in the terminal run code: `pip install -e` to install the packages and dependencies from setup.py.
+3. If the dependencies do not work for any reason, in the terminal run code: `pip install -r requirements.txt` to install dependencies.
+4. Next, run `tourism_hotels_dash_app.py` to run the main multi-page dash app
 
 - **Note: It will show callback ID errors raised. Ignore these, as they are due to an initially hidden container in the "Posts" page. I added a `suppress_callback_exceptions=True` argument to the callbacks but strangely, the error sometimes remains, but the app works as expected.**
 - **Also, do not individually run the individual page files themselves (`pg1.py`, `pg2.py`, `pg3.py`) because importing the charts will show module not found error, instead only run the main app file `tourism_hotels_app.py`.**
