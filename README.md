@@ -40,7 +40,7 @@ Evidence in `visualisation-design.pdf` file
 - username is `user` and password is `password` for now. 
 - there are 2 other combinations in the code for pg3.
 - Since i did not have the time and ability to use learn external modules during the timeframe given to create databases to store the accounts, I could only store 3 example combinations. 
-- In future, I hope
+- Although this does not use the dataset as a visualisation, this page fulfills one of the requirements in the app and one of the goals of the app itself, which is for collaboration of hospitality businesses.
 <br/>
 
 The post page was added so users, hotel and hospitality business owners after viewing the dashboard and selecting a country to open their hotel, can post their location and country with contact details on this page.  
@@ -49,7 +49,7 @@ The post page was added so users, hotel and hospitality business owners after vi
 - In order to post, the user must login. 
 - I added a working login section, that can be unhidden when the "login to post" button is clicked. The user then enters login details  
 - The user can post their details by filling the form, and, when submit button is clicked, the post will update in the layout of the app itself.
-- The other tiles are examples, and images were not used due to copyright. Also, I made it so the posts, resize and reorder to fit screen for smaller screens, which is somehting the target user wanted.
+- The other tiles are examples, and images were not used due to copyright. Also, I made it so the posts, resize and reorder to fit screen for smaller screens, which is something the target user wanted.
 - In future, I would, with more time and ability to store items in a database, be able to have more actual posts stored and added to the layout.
 ## **Used in final app but functionality not fully complete**   
 **A search bar and search button added to the navigation bar for multi-page searching**
