@@ -184,7 +184,7 @@ def update_output(n_clicks_login_submit, username, password):
                                                     class_name="d-flex justify-content-center",
                                                 ),
                                                 dbc.CardBody(
-                                                    [   
+                                                    [
                                                         # Add input field and heading for hotel name
                                                         dbc.Label("Hotel Name"),
                                                         dbc.CardGroup(
@@ -285,6 +285,13 @@ def update_output(n_clicks_login_submit, username, password):
                                                             ]
                                                         ),
                                                         html.Br(),
+                                                        html.Label(
+                                                            [
+                                                                "Ensure all fields are complete"
+                                                            ],
+                                                            className="fw-bold text-danger d-flex justify-content-center",
+                                                        ),
+                                                        html.Br(),
                                                         # Add button to submit changes from all fields to callback
                                                         html.Button(
                                                             id="submit-location-button",
@@ -372,6 +379,7 @@ def add_post_hotel(
             # Increase bottom margin
             className="mb-3",
         )
+
     else:
         added_post_card = html.Div()
 

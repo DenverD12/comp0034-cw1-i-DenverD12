@@ -2,7 +2,10 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-CUSTOM_LOGO = "https://static.thenounproject.com/noun-svg/41150.svg?Expires=1676221204&Signature=jfIz73qyjmFSVqaaTJ~Tu~XfYxjm-87Cl~cx8fMSvuc8HYKeCDpBUL1gqA3ZSgGiM2XcpoofB76pBDdMf15dUJqWeJrPx-gTuWyA1KsW6TSie1eSfFj14hPHTpka12y6W4wLCKvueaogJHdR5Hn3QqQ4XPywN2OqTPbJkpVxz40_&Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q"
+# Define logo with copyright-free example url
+CUSTOM_LOGO = "https://cdn-icons-png.flaticon.com/512/293/293800.png?w=826&t \
+    =st=1676386608~exp=1676387208~hmac=20c9a8d4eee9de4ed34a63a03b6c17a204d \
+    bc89db4114323135959857c387789"
 
 
 # Define navigation bar function

@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objs as go
 import helper_functions as helper
 
+
 # Create custom colorscale for choropleth map to match overall blue theme
 custom_colorscale = [[0.0, "#003366"], [0.5, "#007bff"], [1.0, "#87ceeb"]]
 
@@ -15,58 +16,6 @@ TOURISM_DATA_FILEPATH = Path(__file__).parent.parent.joinpath(
 )
 # Import global prepared dataframe from above dataset
 df_arrivals_prepared = pd.read_csv(TOURISM_DATA_FILEPATH)
-
-
-def bar_chart_top_x_tourism_countries(top_x_countries):
-    """
-    Create a bar chart showing the top 1 to 15 countries for highest average
-    international tourist arrivals over the last 10 recorded years.
-
-    Args:
-        top_x_countries: Callback output of a number from 1 to 15
-    Returns:
-        fig_bar_chart_10_yr_average_topx: Plotly Express bar chart figure
-    """
-    # Specify desired columns
-    cols = [
-        "Country Name",
-        "Indicator Name",
-        "10-year Average in tourist arrivals",
-    ]
-
-    # Define global dataframe of the prepared tourism dataset
-    df_arrivals_10year_average = pd.read_csv(TOURISM_DATA_FILEPATH, usecols=cols)
-
-    # Sort the values by "Average tourist arrivals in last 10 years" column descending order
-    df_arrivals_ascending_10yr_average = df_arrivals_10year_average.sort_values(
-        ["10-year Average in tourist arrivals"], ascending=(False)
-    )
-
-    df_arrivals_10yr_topx = df_arrivals_ascending_10yr_average.head(top_x_countries)
-
-    # Create the plotly bar chart figure
-    fig_bar_chart_10_yr_average_topx = px.bar(
-        df_arrivals_10yr_topx,
-        # Display corresponding country names in x axis
-        x="Country Name",
-        y="10-year Average in tourist arrivals",
-        labels={
-            "Country Name": "",
-            "10-year Average in tourist arrivals": "10-year Average in arrivals",
-        },
-        hover_name="Country Name",
-        hover_data={
-            # Remove unwanted "Country Name" label from hover data
-            "Country Name": False,
-        },
-        template="simple_white",
-        # Set bars to exact colour of Bootstrap 'primary' blue
-        color_discrete_sequence=["#007bfa"],
-    )
-    # Remove the x-axis labels and tick lines
-    fig_bar_chart_10_yr_average_topx.update_xaxes(ticklen=0)
-
-    return fig_bar_chart_10_yr_average_topx
 
 
 def create_choropleth_map(year_selected, selected_region):
@@ -112,9 +61,9 @@ def create_choropleth_map(year_selected, selected_region):
     # Add shape and annotation to show missing data color for clarity
     fig_choropleth.add_shape(
         type="rect",
-        x0=1.153,
-        y0=0.03,
-        x1=1.205,
+        x0=1.157,
+        y0=0.02,
+        x1=1.208,
         y1=0.092,
         xref="paper",
         yref="paper",
@@ -165,9 +114,13 @@ def create_pie_chart(year_selected, region_name):
         ]
         title_text = f"Distribution in arrivals in {region_name}"
 
+    filtered_df_by_region_ascending = filtered_df_by_region.sort_values(
+        [f"{year_selected}"], ascending=(True)
+    )
+
     # Create plotly pie chart
     fig_pie_chart_region = px.pie(
-        data_frame=filtered_df_by_region,
+        data_frame=filtered_df_by_region_ascending,
         values=f"{year_selected}",
         names="Country Name",
         color="Country Name",
@@ -185,7 +138,7 @@ def create_pie_chart(year_selected, region_name):
     fig_pie_chart_region.update_traces(
         textposition="none",
         # Add faint black lines to distinguish similar colored slices
-        marker=dict(line=dict(color="#000000", width=0.2)),
+        marker=dict(line=dict(color="#000000", width=0.1)),
     )
     # Add legend, change font and color, and reduce size
     fig_pie_chart_region.update_layout(
@@ -196,21 +149,80 @@ def create_pie_chart(year_selected, region_name):
     return fig_pie_chart_region
 
 
-def create_scatter_per_country(country_name):
+year_selected = "2019"
+region_name = "All regions"
+
+# create_pie_chart(year_selected, region_name)
+
+
+def bar_chart_top_x_tourism_countries(top_x_countries):
+    """
+    Create a bar chart showing the top 1 to 15 countries for highest average
+    international tourist arrivals over the last 10 recorded years.
+
+    Args:
+        top_x_countries: Callback output of a number from 1 to 15
+    Returns:
+        fig_bar_chart_10_yr_average_topx: Plotly Express bar chart figure
+    """
+    # Specify desired columns
+    cols = [
+        "Country Name",
+        "Indicator Name",
+        "10-year Average in tourist arrivals",
+    ]
+
+    # Define global dataframe of the prepared tourism dataset
+    df_arrivals_10year_average = pd.read_csv(TOURISM_DATA_FILEPATH, usecols=cols)
+
+    # Sort the values by "Average tourist arrivals in last 10 years" column descending order
+    df_arrivals_ascending_10yr_average = df_arrivals_10year_average.sort_values(
+        ["10-year Average in tourist arrivals"], ascending=(False)
+    )
+
+    df_arrivals_10yr_topx = df_arrivals_ascending_10yr_average.head(top_x_countries)
+
+    # Create the plotly bar chart figure
+    fig_bar_chart_10_yr_average_topx = px.bar(
+        df_arrivals_10yr_topx,
+        # Display corresponding country names in x axis
+        x="Country Name",
+        y="10-year Average in tourist arrivals",
+        labels={
+            "Country Name": "",
+            "10-year Average in tourist arrivals": "10-year Average in arrivals",
+        },
+        hover_name="Country Name",
+        hover_data={
+            # Remove unwanted "Country Name" label from hover data
+            "Country Name": False,
+        },
+        template="simple_white",
+        # Set bars to exact colour of Bootstrap 'primary' blue
+        color_discrete_sequence=["#007bfa"],
+    )
+
+    # Remove the x-axis labels and tick lines
+    fig_bar_chart_10_yr_average_topx.update_xaxes(ticklen=0)
+
+    return fig_bar_chart_10_yr_average_topx
+
+
+def create_line_per_country(country_name):
     """
     Create a line plot with markers for given country name.
 
     Args:
         country_name: Callback output of a selected country name as a string
     Returns:
-        fig_scatter_per_country: Plotly line chart with markers figure for selected country
+        fig_line_per_country: Plotly line chart with markers figure for selected country
 
     """
     # Drop unwanted columns, transpose dataframe using helper function
     df_arrivals_transposed = helper.transpose_df_arrivals_prepared()
 
     # Create line chart with markers
-    fig_scatter_per_country = px.line(
+    fig_line_per_country = px.line(
         df_arrivals_transposed,
         x="index",
         y=country_name,
@@ -223,14 +235,14 @@ def create_scatter_per_country(country_name):
         height=405,
     )
     # Make line color 'primary' blue consistent with navbar
-    fig_scatter_per_country.update_traces(line_color="#007bff")
+    fig_line_per_country.update_traces(line_color="#007bff")
 
     # Get y value for covid-19 year 2020
     value_2020_covid = df_arrivals_transposed.loc[25, f"{country_name}"]
 
     # If there is 2020 data, add annotation to inform user
     if not math.isnan(value_2020_covid):
-        fig_scatter_per_country.add_annotation(
+        fig_line_per_country.add_annotation(
             text="<b>Covid-19 Year</b>",
             # Set x to row index number
             x=25,
@@ -241,9 +253,9 @@ def create_scatter_per_country(country_name):
             showarrow=True,
         )
     else:
-        fig_scatter_per_country
+        fig_line_per_country
 
-    return fig_scatter_per_country
+    return fig_line_per_country
 
 
 def create_line_chart_compare_countries(country_name_1, country_name_2):
@@ -254,7 +266,7 @@ def create_line_chart_compare_countries(country_name_1, country_name_2):
         country_name_1: Callback output of first selected country name as a string
         country_name_2: Callback output of second selected country name as a string
     Returns:
-        fig_scatter_per_country: Plotly go line chart figure with 2 lines for each selected country
+        fig_line_chart_compare_countries: Plotly go line chart figure with 2 lines for each selected country
     """
     # Drop unwanted columns, transpose dataframe using helper function
     df_arrivals_transposed = helper.transpose_df_arrivals_prepared()

@@ -19,7 +19,7 @@ layout = (
     dbc.Container(
         fluid=True,
         children=[
-            # First row here for scatter plot for each country
+            # First row here for line plot for one country
             dbc.Row(
                 [
                     # Add the country selector and the statistics card
@@ -27,7 +27,7 @@ layout = (
                         [
                             html.Label(["Choose or type Country Name"]),
                             dcc.Dropdown(
-                                id="dropdown-scatter-per-country",
+                                id="dropdown-line-per-country",
                                 # Obtain country names from dataset as options
                                 options=[
                                     {"label": country, "value": country}
@@ -63,12 +63,12 @@ layout = (
                     # Second column for figure
                     dbc.Col(
                         [
-                            # Add callback output title for scatter per country
-                            html.H4(id="scatter-per-country-title"),
+                            # Add callback output title for line for one country
+                            html.H4(id="line-per-country-title"),
                             # Increase padding to stop chart corners extruding rounded card corners
                             dbc.Card(
                                 [
-                                    dcc.Graph(id="scatter-per-country"),
+                                    dcc.Graph(id="line-per-country"),
                                 ],
                                 className="p-1 px-2",
                             ),
@@ -195,18 +195,18 @@ layout = (
 
 @callback(
     [
-        Output("scatter-per-country", "figure"),
-        Output("scatter-per-country-title", "children"),
+        Output("line-per-country", "figure"),
+        Output("line-per-country-title", "children"),
         Output("stats-card", "children"),
     ],
-    [Input("dropdown-scatter-per-country", "value")],
+    [Input("dropdown-line-per-country", "value")],
 )
-def update_country_scatter_and_stats_card(country_name):
+def update_country_line_and_stats_card(country_name):
     """
-    Callback to updates scatter plot figure and title per country value selected in dropwdown.
+    Callback to updates line plot figure and title per country value selected in dropwdown.
     """
-    # Call helper function to create scatter plot, given callback input
-    fig_scatter_per_country = cc.create_scatter_per_country(country_name)
+    # Call helper function to create line plot, given callback input
+    fig_line_per_country = cc.create_line_per_country(country_name)
 
     # Set dataframe to the country name
     df_arrivals_reset_index = df_arrivals_prepared.set_index("Country Name")
@@ -227,9 +227,11 @@ def update_country_scatter_and_stats_card(country_name):
         children=[
             dbc.CardHeader(
                 [
-                    html.H4(country_name, id="card-name", className="fw-bold"),
+                    html.H4(
+                        country_name, id="card-name", className="fw-bold text-dark"
+                    ),
                 ],
-                class_name="gx-1 p-3 py-2 m-0 ",
+                class_name="gx-1 p-3 py-2 m-0 bg-white",
             ),
             dbc.CardBody(
                 [
@@ -269,7 +271,7 @@ def update_country_scatter_and_stats_card(country_name):
     )
 
     return (
-        fig_scatter_per_country,
+        fig_line_per_country,
         f"Trends in tourist arrivals for {country_name}",
         stats_card,
     )

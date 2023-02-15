@@ -22,27 +22,6 @@ layout = dbc.Container(
         # First row here
         dbc.Row(
             [
-                dbc.Col(
-                    [
-                        # Add title of chart here, smaller than main dashboard title
-                        html.H4(["International Tourist Arrivals by Year and Region"]),
-                        # Add the choropleth figure in a card, updated via callback
-                        dbc.Card(
-                            [
-                                dcc.Graph(id="choropleth"),
-                            ],
-                            # Align figure in centre of card and increase padding
-                            class_name="d-flex align-items-center justify-content-center p-2 py-5",
-                        ),
-                    ],
-                    width=7,
-                    # Add column widths to reposition column position for smaller screens
-                    xs=12,
-                    sm=12,
-                    md=12,
-                    lg=12,
-                    xl=7,
-                ),
                 # Column containing options and pie chart
                 dbc.Col(
                     [
@@ -164,6 +143,31 @@ layout = dbc.Container(
                     lg=12,
                     xl=5,
                 ),
+                dbc.Col(
+                    [
+                        # Add title of chart here, smaller than main dashboard title
+                        html.H4(
+                            [
+                                "International Tourist Arrivals per Country by Year and Region"
+                            ]
+                        ),
+                        # Add the choropleth figure in a card, updated via callback
+                        dbc.Card(
+                            [
+                                dcc.Graph(id="choropleth"),
+                            ],
+                            # Align figure in centre of card and increase padding
+                            class_name="d-flex align-items-center justify-content-center p-2 py-5",
+                        ),
+                    ],
+                    width=7,
+                    # Add column widths to reposition column position for smaller screens
+                    xs=12,
+                    sm=12,
+                    md=12,
+                    lg=12,
+                    xl=7,
+                ),
             ],
             justify="center",
         ),
@@ -241,14 +245,27 @@ def update_output(number_clicks, selected_region, year_selected):
     if year_selected is None:
         raise PreventUpdate
     else:
-        # Run external helper function to create choropleth graph figure
-        fig_choropleth = cc.create_choropleth_map(year_selected, selected_region)
+        # Don't show all regions on one pie as it is too many colors
+        if selected_region == "All regions":
+            # Show middle east region instead
+            fig_choropleth = cc.create_choropleth_map(year_selected, selected_region)
+            fig_pie_chart_regions = cc.create_pie_chart(
+                year_selected, "Middle East & North Africa"
+            )
+            pie_chart_title = f"Distribution of Arrivals in Middle East & North Africa in {year_selected}"
+        else:
+            # Run external helper function to create choropleth graph figure
+            fig_choropleth = cc.create_choropleth_map(year_selected, selected_region)
 
-        fig_pie_chart_regions = cc.create_pie_chart(year_selected, selected_region)
+            fig_pie_chart_regions = cc.create_pie_chart(year_selected, selected_region)
 
-        pie_chart_title = f"Distribution of arrivals in {selected_region}"
+            pie_chart_title = (
+                f"Distribution of Arrivals in {selected_region} in {year_selected}"
+            )
 
         return fig_choropleth, fig_pie_chart_regions, pie_chart_title
+
+    i
 
 
 @callback(
