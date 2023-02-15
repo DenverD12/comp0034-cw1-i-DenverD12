@@ -178,7 +178,7 @@ def bar_chart_top_x_tourism_countries(top_x_countries):
     international tourist arrivals over the last 10 recorded years.
 
     Args:
-        top_x_countries: Callback output of a number from 1 to 15
+        top_x_countries: Callback output of a number between 1 to 15
     Returns:
         fig_bar_chart_10_yr_average_topx: Plotly Express bar chart figure
     """
