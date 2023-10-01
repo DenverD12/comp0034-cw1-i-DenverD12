@@ -1,7 +1,7 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=9733923&assignment_repo_type=AssignmentRepo)
 # **Repository containing project:**
-## **Plotly Dash webapp (front-end) based on Tourism arrivals prepared dataset**
-## **File containing project code:**
+- ## **Plotly Dash webapp (front-end) based on Tourism arrivals prepared dataset**
+## **Files containing project code:**
 - Main dashboard app code: `tourism_hotels_app` -> **`tourism_hotels_dash_app.py`**
 - General Helper functions in: `tourism_hotels_app` -> **`helper_functions.py`**
 - Create charts (visualisations) helper functions: `tourism_hotels_app` -> **`create_charts.py`**
